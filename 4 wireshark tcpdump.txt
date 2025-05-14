@@ -1,0 +1,39 @@
+. Wireshark Program (Graphical Tool)
+Wireshark is a GUI-based tool. You don’t write a traditional "program" in code, but rather use it interactively. Here’s how to use it:
+
+Steps:
+
+1.Open Wireshark
+
+2.Select the interface (e.g., eth0, wlan0)
+
+
+3.Use filters like:
+
+
+	1.ip.addr == 192.168.1.1 – Filter traffic for a specific IP
+	2.tcp.port == 80 and ip.src == 192.168.1.2
+Exporting Output:
+You can save captured traffic to .pcap files
+
+Go to File > Export > As CSV or similar formats
+
+2. tcpdump Alternative for Windows
+
+Windows doesn’t natively support tcpdump, but alternatives include:
+
+Option A: Using WinDump (Windows port of tcpdump)
+Installation:
+
+Download WinDump: http://www.winpcap.org/windump/ (Note: WinPcap is required, but Npcap in “WinPcap compatibility mode” may work)
+
+Install Npcap in compatibility mode for WinDump.
+
+Usage (Command Prompt as Admin):
+
+
+windump -D                    :: List interfaces
+windump -i 1                  :: Capture on interface 1
+windump -i 1 host 192.168.1.1 :: Capture packets to/from specific host
+windump -i 1 -w output.pcap   :: Save output to file
+
