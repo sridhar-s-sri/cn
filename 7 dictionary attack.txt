@@ -1,0 +1,68 @@
+🔶 PART A: Dictionary Attack on ZIP File
+🔷 Algorithm
+	Load the ZIP file.
+
+	Read a list of passwords from a wordlist file.
+
+	Try each password until the correct one successfully extracts the file.
+
+🔷 Python Program (Dictionary Attack)
+
+import zipfile
+
+zip_file = zipfile.ZipFile('secret.zip')
+wordlist = 'wordlist.txt'
+
+with open(wordlist, 'r') as f:
+    for word in f:
+        password = word.strip()
+        try:
+            zip_file.extractall(pwd=bytes(password, 'utf-8'))
+            print("✅ Password found:", password)
+            break
+        except:
+            continue
+
+🔷 Output (Example)
+✅ Password found: cyber123
+🔷 Result
+The program successfully cracked the ZIP file password using a dictionary wordlist.
+
+🔶 PART B: Brute-force vs Dictionary Attack on SHA-1 Hashed Password
+🔷 Algorithm (SHA-1 Cracking):
+	Brute-force: Try all combinations of letters up to a certain length.
+
+	Dictionary: Try all words from a wordlist file.
+
+🔷 Python Program – Brute Force
+
+import hashlib
+import itertools
+import string
+
+target_hash = hashlib.sha1(b'abc123').hexdigest()
+
+for length in range(1, 6):
+    for attempt in itertools.product(string.ascii_lowercase + string.digits, repeat=length):
+        guess = ''.join(attempt)
+        hashed = hashlib.sha1(guess.encode()).hexdigest()
+        if hashed == target_hash:
+            print("✅ Password cracked:", guess)
+            exit()
+
+🔷 Python Program – Dictionary Attack
+
+import hashlib
+
+target_hash = hashlib.sha1(b'abc123').hexdigest()
+
+with open('wordlist.txt', 'r') as f:
+    for word in f:
+        guess = word.strip()
+        if hashlib.sha1(guess.encode()).hexdigest() == target_hash:
+            print("✅ Password cracked using dictionary:", guess)
+            break
+
+🔷 Output (Example)
+
+✅ Password cracked using dictionary: abc123
