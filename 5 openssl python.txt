@@ -1,0 +1,88 @@
+🔷 Aim
+	To create a secure SSL/TLS connection using OpenSSL.
+
+	To inspect SSL certificate details from a server.
+
+	To send secure messages using Python's ssl and socket modules and verify confidentiality of communication.
+
+🔷 Part A: Procedure to Inspect Certificate Using OpenSSL (on Windows)
+	🔶 Installation Steps
+		Install OpenSSL for Windows:
+
+		Download from: https://slproweb.com/products/Win32OpenSSL.html
+
+		Choose latest Win64 OpenSSL (or Win32 if on 32-bit).
+
+		During installation, add OpenSSL to the system PATH or note its installation directory.
+
+	Verify installation:
+		Open Command Prompt and type:
+
+			openssl version
+
+You should see output like:
+
+🔶 Commands to Inspect SSL Certificate from a Website
+
+		openssl s_client -connect www.google.com:443
+
+🔷 Expected Output:
+Certificate chain
+
+Server certificate details
+
+Cipher and protocol used (e.g., TLSv1.3)
+
+Session details
+
+Sample output:
+
+
+CONNECTED(000001A4)
+depth=2 O = Google Trust Services, CN = GTS Root R1
+verify return:1
+...
+SSL-Session:
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_256_GCM_SHA384
+
+🔷 Part B: Sending Secure Messages using Python's ssl Module
+
+
+🔶 Python Program (Client-Side SSL Socket)
+python
+
+import socket, ssl
+
+hostname = 'www.google.com'
+context = ssl.create_default_context()
+
+with socket.create_connection((hostname, 443)) as sock:
+    with context.wrap_socket(sock, server_hostname=hostname) as ssock:
+        print("SSL/TLS Protocol:", ssock.version())
+        print("Cipher:", ssock.cipher())
+        print("Server Certificate:")
+        print(ssock.getpeercert())
+
+🔶 Steps to Run on Windows
+	Save the code as ssl_client.py.
+
+Open CMD or PowerShell.
+
+Run:
+
+	python ssl_client.py
+
+🔷 Expected Output:
+
+SSL/TLS Protocol: TLSv1.3
+Cipher: ('TLS_AES_256_GCM_SHA384', 'TLSv1.3', 256)
+Server Certificate:
+{'subject': ((('commonName', 'www.google.com'),),), ...}
+
+🔷 Result
+Successfully created a secure SSL/TLS connection.
+
+Retrieved and displayed certificate details.
+
+Demonstrated secure socket communication using Python.
